@@ -63,6 +63,21 @@ ahead of traffic; it is optional and idempotent.
 A signer holds network and transport configuration but never a private key. Each call takes the key, so
 no long-lived object owns a secret.
 
+## How this fits the Dash Platform JS SDK
+
+This library is a companion to the `dash` SDK, not a replacement. The SDK is the full client, it fetches
+identities and contracts, manages a wallet, signs, and broadcasts, but its signing is welded to that
+wallet and its seed-derived key tree. Server-side pipelines that hold a raw key have no clean way through
+it, and that is exactly the step this library replaces. The working composition is SDK for reads and
+broadcast, this library for signing. Fetch the identity with the SDK, convert it with
+`snapshotFromDashIdentity`, sign here with the raw key, and hand the bytes back to the SDK's DAPI client
+through the transport seam.
+
+The next planned feature makes that pairing a one-line setup. A `createDashTransport(client)` helper
+(recorded in the repository's TODO) will wrap a configured SDK client into the `Transport` this library
+expects, forwarding the nonce reads and the broadcast and mapping SDK failures into the exported error
+classes.
+
 ## The identity snapshot
 
 The library never fetches your account from the network. You describe it yourself, in a small plain
