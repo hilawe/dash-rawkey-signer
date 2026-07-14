@@ -1,11 +1,18 @@
 # Changelog
 
-## Unreleased
+## 0.3.0 (2026-07-14)
 
 - `createDashTransport(client)`: wrap a configured dash SDK client into the library's Transport in one
   line. Forwards the nonce reads, broadcasts with a proof-backed result wait, and maps SDK failures into
   the exported error classes. The SDK stays an optional peer the library never imports; the client is
-  read structurally.
+  read structurally. Hardened through a two-round adversarial review: the error model is phase-aware
+  and gRPC-code-aware (transport codes 4 and 14 and code-less throws are NetworkError with indeterminate
+  delivery, other coded rejections are BroadcastError with the platform code, post-delivery wait failures
+  are NetworkError with indeterminate delivery false), and every boundary contains hostile input.
+- byteArray document properties are pinned end to end in all three representations (Buffer, Uint8Array,
+  plain array), a coverage gap reported by the first real consumer. The reported failure does not
+  reproduce on the pinned tooling; consuming the published package avoids the version skew that likely
+  caused it.
 
 All notable changes to dash-rawkey-signer. The versioning policy is in the README's Compatibility
 section. Until 1.0.0, breaking changes may land in minor releases and each one is called out here.
