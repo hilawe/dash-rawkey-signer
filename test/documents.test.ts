@@ -687,6 +687,7 @@ test("byteArray document properties sign in every representation (a consumer-rep
   const contract = Uint8Array.from(dpp.dataContract.create(owner, 1n, schema).toBuffer());
   const signer = createRawKeySigner({ network: "testnet" });
   const bytes32 = new Uint8Array(32).fill(9);
+  const lengths = new Set<number>();
   for (const value of [Buffer.from(bytes32), Uint8Array.from(bytes32), [...bytes32]]) {
     const signed = await signer.signDocumentBatch({
       identity: identity(),
@@ -702,5 +703,10 @@ test("byteArray document properties sign in every representation (a consumer-rep
       nonceContext: { contractNonce: 1n },
     });
     assert.equal(signed.transitionType, 1);
+    lengths.add(signed.bytes.length);
   }
+  // The serialized size must not depend on the input representation. A typed array that leaked through
+  // as a typed array would encode as an index-keyed map, roughly doubling the field's wire size and
+  // getting rejected by the network's validator (the consumer-confirmed failure this fix closes).
+  assert.equal(lengths.size, 1, "all representations serialize to the same compact byte form");
 });

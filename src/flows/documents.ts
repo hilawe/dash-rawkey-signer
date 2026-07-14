@@ -46,19 +46,22 @@ function deepCloneData(value: unknown, path: WeakSet<object>): unknown {
     return value;
   }
   if (ArrayBuffer.isView(value)) {
-    // A block copy through set(), which is a straight memcpy over internal slots: it cannot dispatch an
-    // overridden iterator, and the copy always lands in a fresh plain ArrayBuffer, even when the source
-    // view is backed by shared memory.
+    // Byte views are normalized to PLAIN NUMBER ARRAYS, not typed-array copies. The tooling's conversion
+    // layer encodes a typed array as an index-keyed map in the serialized transition, which the network's
+    // validator rejects for byteArray fields ("not of type array"), while a plain array encodes as the
+    // compact byte form the network accepts. Signing succeeds either way, so only a broadcast exposes the
+    // difference (found by the first real consumer, confirmed by comparing serialized bytes). The copy via
+    // an intermediate memcpy view also stays safe against overridden iterators and shared memory.
     const view = value as ArrayBufferView;
     const copy = new Uint8Array(view.byteLength);
     copy.set(new Uint8Array(view.buffer, view.byteOffset, view.byteLength));
-    return copy;
+    return Array.from(copy);
   }
   if (value instanceof ArrayBuffer || (typeof SharedArrayBuffer !== "undefined" && value instanceof SharedArrayBuffer)) {
     const source = new Uint8Array(value);
     const copy = new Uint8Array(source.byteLength);
     copy.set(source);
-    return copy;
+    return Array.from(copy);
   }
   if (path.has(value)) {
     throw new InvalidTransitionError("document data must not contain a cycle");

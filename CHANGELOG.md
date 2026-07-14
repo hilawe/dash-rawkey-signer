@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.1 (2026-07-14)
+
+A consumer-confirmed fix. Byte views (Buffer, Uint8Array) in document data now normalize to plain number
+arrays in the clone, because the tooling's conversion layer encodes a typed array as an index-keyed map
+in the serialized transition, which the network's validator rejects for byteArray fields while accepting
+the compact form a plain array produces. Signing succeeded either way, so only a broadcast exposed the
+difference: the first real consumer's stack trace localized the rejection to broadcast, and comparing
+serialized bytes confirmed the divergence (400-byte map-form transitions from typed arrays versus 250
+bytes from arrays). All representations now serialize identically, pinned by test.
+
 ## 0.3.0 (2026-07-14)
 
 - `createDashTransport(client)`: wrap a configured dash SDK client into the library's Transport in one
