@@ -3,6 +3,13 @@
 All notable changes to dash-rawkey-signer. The versioning policy is in the README's Compatibility
 section. Until 1.0.0, breaking changes may land in minor releases and each one is called out here.
 
+## Unreleased
+
+- The protocol conformance matrix: every transition family builds, signs, and re-parses with stable
+  fields at protocol versions 1 and 12, with signature verification where the tooling exposes it,
+  wrong-nonce negatives per family, and concurrent nonce allocation through a transport. The
+  compatibility claim widens to name both versions on the strength of this matrix.
+
 ## 0.1.2 (2026-07-14)
 
 The first release published from CI with npm provenance, from the now-public repository

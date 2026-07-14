@@ -275,7 +275,7 @@ try {
 | `@dashevo/wasm-dpp` | 4.0.0 |
 | `@dashevo/dashcore-lib` | ^0.22.0 |
 | `dash` (optional peer) | ^7.0.0 |
-| Dash Platform protocol | set by the caller; exercised at version 1 (the devnet-verified path) |
+| Dash Platform protocol | set by the caller; conformance-tested at versions 1 and 12, live-verified at 1 |
 
 Upgrading `@dashevo/wasm-dpp` is never a routine dependency bump. The adapter reaches into that
 package's specific export shapes and setter behavior, so any version change requires re-validating the

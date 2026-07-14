@@ -64,7 +64,7 @@ the divergences and novel ideas kept out of v1, revisited on the stated evidence
 
 ## 0.2.0 (next planned release)
 
-- [ ] The protocol conformance matrix, the holistic review's highest-confidence test class. Every
+- [x] The protocol conformance matrix, the holistic review's highest-confidence test class. Every
   transition family at every claimed protocol version (1 and 12), stable parsed fields, sign and
   re-parse, signature verification where the tooling exposes it, wrong nonce and scope negatives, and
   concurrent allocation through a contract transport. Widening the README compatibility claim beyond
