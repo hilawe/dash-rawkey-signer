@@ -664,3 +664,43 @@ test("a delete builds and signs against a schema with required fields (pins the 
   });
   assert.equal(signed.transitionType, 1);
 });
+
+test("byteArray document properties sign in every representation (a consumer-reported class)", async () => {
+  // The first real consumer reported byteArray fields failing when passed as Buffer or Uint8Array in its
+  // environment (a vendored copy resolving a different wasm-dpp build). On the pinned tooling all three
+  // representations pass; this pins that, so a tooling upgrade that narrows the accepted shapes is caught.
+  await wasm.default();
+  const dpp = new wasm.DashPlatformProtocol({ generate: () => randomBytes(32) });
+  const owner = wasm.Identifier.from(Buffer.from(IDENTITY_ID));
+  const schema = {
+    votePreference: {
+      type: "object",
+      properties: {
+        poolId: { type: "array", byteArray: true, minItems: 32, maxItems: 32, position: 0 },
+        proposalHash: { type: "array", byteArray: true, minItems: 32, maxItems: 32, position: 1 },
+        choice: { type: "string", maxLength: 32, position: 2 },
+      },
+      required: ["poolId", "proposalHash", "choice"],
+      additionalProperties: false,
+    },
+  };
+  const contract = Uint8Array.from(dpp.dataContract.create(owner, 1n, schema).toBuffer());
+  const signer = createRawKeySigner({ network: "testnet" });
+  const bytes32 = new Uint8Array(32).fill(9);
+  for (const value of [Buffer.from(bytes32), Uint8Array.from(bytes32), [...bytes32]]) {
+    const signed = await signer.signDocumentBatch({
+      identity: identity(),
+      privateKey: { raw: rawOf(authKey) },
+      contract,
+      actions: [
+        {
+          action: "create",
+          documentType: "votePreference",
+          data: { poolId: value as never, proposalHash: value as never, choice: "yes" },
+        },
+      ],
+      nonceContext: { contractNonce: 1n },
+    });
+    assert.equal(signed.transitionType, 1);
+  }
+});
