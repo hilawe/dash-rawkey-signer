@@ -19,7 +19,7 @@ refuses a transition it cannot describe rather than signing it on a weaker check
 npm install dash-rawkey-signer
 ```
 
-The package is ECMAScript modules only. `require()` is not supported; use `import` (Node 18 or later).
+The package is ECMAScript modules only. `require()` is not supported; use `import` (Node 20 or later).
 
 The tooling packages `@dashevo/wasm-dpp` and `@dashevo/dashcore-lib` are dependencies. The `dash` SDK is
 an optional peer dependency that the library never imports. You need it only when your own transport or
@@ -271,7 +271,7 @@ try {
 
 | Component | Version |
 | --- | --- |
-| Node.js | >= 18 |
+| Node.js | >= 20 |
 | `@dashevo/wasm-dpp` | 4.0.0 |
 | `@dashevo/dashcore-lib` | ^0.22.0 |
 | `dash` (optional peer) | ^7.0.0 |

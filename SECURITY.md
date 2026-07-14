@@ -21,4 +21,4 @@ called out in the CHANGELOG.
   bump. Each upgrade re-validates the WebAssembly bridge before release.
 - Dependency advisories for the pinned tooling and `@dashevo/dashcore-lib` are reviewed before each
   release, and a corrective release follows any advisory that affects signing or key handling.
-- Node.js support follows the engines field (currently 18 or later).
+- Node.js support follows the engines field (currently 20 or later).

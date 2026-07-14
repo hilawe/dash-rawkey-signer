@@ -3,6 +3,11 @@
 All notable changes to dash-rawkey-signer. The versioning policy is in the README's Compatibility
 section. Until 1.0.0, breaking changes may land in minor releases and each one is called out here.
 
+## Unreleased
+
+- Node.js floor raised to 20. The protocol WebAssembly traps on Node 18 (end of life since 2025) in the
+  documents path, caught by the public CI matrix.
+
 ## 0.1.1 (2026-07-14)
 
 Holistic-review fixes. One behavior change: the signer's configured network is now enforced, so any
