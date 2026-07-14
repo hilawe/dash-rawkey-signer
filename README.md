@@ -3,6 +3,18 @@
 Sign Dash Platform state transitions as an identity using a raw private key, with no
 hierarchical-deterministic wallet seed.
 
+**What this is, in plain terms.** Dash Platform is the application layer of the Dash network, where
+accounts (called identities) store data and move funds by submitting signed instructions. Normally you
+need the official wallet software to sign those instructions, and the wallet insists on managing your
+keys its own way, generated from a seed phrase and kept inside its own structure. But plenty of real
+situations hand you a key by itself, with no wallet around it. A server signing on behalf of a service.
+A recovery scenario where someone reassembled a key from backup shares. A key living in a hardware
+security module that only ever exports raw bytes. This library exists for exactly those situations. You
+hand it the bare key and a description of the account, and it produces a correctly signed instruction,
+ready to submit. It deliberately does very little else, and it is built defensively, so a wrong key, a
+mismatched account, or a malformed request gets refused with a clear error instead of producing a
+signature that the network would reject or, worse, one you did not intend.
+
 The Dash SDK signs platform transitions through a wallet that owns the identity's keys inside an HD tree.
 Backend services and recovery tools often hold an identity key as a standalone value instead, extracted
 from a hardware module, a key-management service, or a recovery share. This library signs a transition
@@ -52,6 +64,9 @@ A signer holds network and transport configuration but never a private key. Each
 no long-lived object owns a secret.
 
 ## The identity snapshot
+
+The library never fetches your account from the network. You describe it yourself, in a small plain
+object, and everything is checked against that description.
 
 The core accepts a library-owned `IdentitySnapshot`, not a tooling identity object, so a tooling version
 change stays contained to this library. Build one from a fetched identity, or assemble it directly for
@@ -172,6 +187,7 @@ const signed = await signer.signTransition({ identity, privateKey: { raw: keyByt
 
 ## Broadcast, authorize, and a bound key
 
+Signing and submitting are separate on purpose, so you can sign on one machine and submit from another.
 `broadcast` parses the input before transport, so a stray byte array is rejected rather than transmitted.
 It needs a configured transport.
 
