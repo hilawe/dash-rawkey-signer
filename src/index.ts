@@ -18,5 +18,11 @@ export type { RawKeySigner, RawKeySignerOptions, BoundSigner } from "./signer.js
 export type { Transport } from "./adapter/transport.js";
 export { createDefaultNonceSource } from "./nonce.js";
 export type { NonceSource } from "./nonce.js";
-export { snapshotFromDashIdentity } from "./integration.js";
-export type { DashIdentityLike, DashIdentityKeyLike, SnapshotOptions } from "./integration.js";
+export { snapshotFromDashIdentity, createDashTransport } from "./integration.js";
+export type {
+  DashIdentityLike,
+  DashIdentityKeyLike,
+  SnapshotOptions,
+  DashSdkClientLike,
+  DashDapiPlatformLike,
+} from "./integration.js";

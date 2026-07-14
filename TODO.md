@@ -56,7 +56,7 @@ the divergences and novel ideas kept out of v1, revisited on the stated evidence
   timeouts fail the allocation today; a bounded, jittered retry would absorb them. Revisit with evidence
   from a production transport.
 
-- [ ] A thin prebuilt transport wrapper over the dash SDK (a release-review idea). The Transport seam
+- [x] A thin prebuilt transport wrapper over the dash SDK (a release-review idea). Shipped as createDashTransport. The Transport seam
   stays, and a `createDashTransport(client)` helper forwards the three methods and maps SDK errors, so the
   common online case is one line. Verify the SDK surface first; revisit on the first real online consumer.
 - [ ] An in-memory nonce source for tests and offline tooling (a release-review idea), reusing the default

@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- `createDashTransport(client)`: wrap a configured dash SDK client into the library's Transport in one
+  line. Forwards the nonce reads, broadcasts with a proof-backed result wait, and maps SDK failures into
+  the exported error classes. The SDK stays an optional peer the library never imports; the client is
+  read structurally.
+
 All notable changes to dash-rawkey-signer. The versioning policy is in the README's Compatibility
 section. Until 1.0.0, breaking changes may land in minor releases and each one is called out here.
 

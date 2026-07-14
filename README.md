@@ -73,10 +73,19 @@ broadcast, this library for signing. Fetch the identity with the SDK, convert it
 `snapshotFromDashIdentity`, sign here with the raw key, and hand the bytes back to the SDK's DAPI client
 through the transport seam.
 
-The next planned feature makes that pairing a one-line setup. A `createDashTransport(client)` helper
-(recorded in the repository's TODO) will wrap a configured SDK client into the `Transport` this library
-expects, forwarding the nonce reads and the broadcast and mapping SDK failures into the exported error
-classes.
+The exported `createDashTransport(client)` helper makes that pairing a one-line setup. It wraps a
+configured SDK client into the `Transport` this library expects, forwards the nonce reads, broadcasts
+with a proof-backed result wait, and maps failures into the exported error classes (a platform rejection
+is a `BroadcastError` carrying the platform code, a connection failure is a `NetworkError` flagged as
+indeterminate delivery).
+
+```ts
+import Dash from "dash";
+import { createRawKeySigner, createDashTransport } from "dash-rawkey-signer";
+
+const client = new Dash.Client({ network: "testnet" });
+const signer = createRawKeySigner({ network: "testnet", transport: createDashTransport(client) });
+```
 
 ## The identity snapshot
 
