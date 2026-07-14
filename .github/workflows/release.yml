@@ -14,7 +14,7 @@ jobs:
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org
+      # Tokenless publish via npm trusted publishing (OIDC). Needs a current npm CLI.
+      - run: npm install -g npm@latest
       - run: npm ci
       - run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
