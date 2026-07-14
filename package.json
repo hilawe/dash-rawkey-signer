@@ -1,6 +1,6 @@
 {
   "name": "dash-rawkey-signer",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Sign Dash Platform state transitions as an identity using a raw private key, with no hierarchical-deterministic wallet seed.",
   "author": "Hilawe Semunegus",
   "license": "MIT",
