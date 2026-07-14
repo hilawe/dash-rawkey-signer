@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           registry-url: https://registry.npmjs.org
       # Tokenless publish via npm trusted publishing (OIDC). Needs a current npm CLI.
       - run: npm install -g npm@latest
