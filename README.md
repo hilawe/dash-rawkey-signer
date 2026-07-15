@@ -18,11 +18,8 @@ little else, and it is built defensively. A wrong key, a mismatched account, or 
 gets refused with a clear error instead of producing a signature that the network would reject or,
 worse, one you did not intend.
 
-The Dash SDK signs platform transitions through a wallet that owns the identity's keys inside an HD tree.
-Backend services and recovery tools often hold an identity key as a standalone value instead, extracted
-from a hardware module, a key-management service, or a recovery share. This library signs a transition
-with that raw key directly. It owns no network client and no wallet. The caller passes an identity
-snapshot and a key, and gets back signed bytes to broadcast.
+It owns no network client and no wallet. The caller passes an identity snapshot and a key, and gets
+back signed bytes to broadcast.
 
 Every signing path runs through one authorization step first. That step binds the key, the identity, and
 the transition together, derives the required key from the protocol rather than from the caller, and
