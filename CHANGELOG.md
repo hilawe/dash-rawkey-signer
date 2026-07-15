@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.2 (2026-07-14)
+
+Documentation only. The README intro is restructured for readability (a short-version one-liner, the
+plain-terms explainer in short paragraphs, and the redundant technical intro paragraph removed in favor
+of the SDK-fit section). No code changes.
+
 ## 0.3.1 (2026-07-14)
 
 A consumer-confirmed fix. Byte views (Buffer, Uint8Array) in document data now normalize to plain number
